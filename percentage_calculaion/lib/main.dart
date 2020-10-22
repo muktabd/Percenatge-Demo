@@ -21,12 +21,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String displayResult = "";
 
-  double numAmount, numPercentage;
-
-  final numAmountController = TextEditingController();
-  final numPercentageController = TextEditingController();
+  final numAmountController = TextEditingController(text: '0.0');
+  final numPercentageController = TextEditingController(text: '0.0');
 
   bool validate = false;
   @override
@@ -116,11 +113,26 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                         Text(
-                          'From your amount of ${numAmountController.text} and given ${numPercentageController.text}, your total percentage is $displayResult',
+                          'Percentage is : $displayResult',
                           style: TextStyle(
                             fontSize: 18.0,
                           ),
                         ),
+
+                        Text(
+                          'After minus the percentage, amount is : $displayResultMinus',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                        ),
+
+                        Text(
+                          'After adding the percentage, amount is : $displayResultAdd',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                        ),
+                     
                         //Text('$inputtedAmount'),
                       ],
                     ))
@@ -130,22 +142,22 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
   }
 
+  var displayResult = 0.0, inputtedAmount = 0.0, 
+  inputtedPercentage = 0.0, displayResultAdd = 0.0, displayResultMinus=0.0;
+
   void calculateNow() {
-    var inputtedAmount, inputtedPercentage, displayResult;
+    setState(() {
+      inputtedAmount = double.parse(numAmountController.text);
+      inputtedPercentage = double.parse(numPercentageController.text);
 
-    var amount = double.parse(numAmountController.text);
-    inputtedAmount = amount;
+      displayResult = (inputtedAmount * inputtedPercentage)/100;
 
-    print('amount is ==> $amount');
-    var percentage = double.parse(numPercentageController.text);
-    print('percenatge is ==> $percentage');
+      
+      displayResultAdd =  inputtedAmount + displayResult;
+      displayResultMinus = inputtedAmount - displayResult;
+      
+    });
 
-    var result = (amount * percentage) / 100;
-    print('multiple is ==> $result');
 
-    var resultString = result.toString();
-    print('convert result is ==> $resultString');
-
-    displayResult = resultString;
   }
 }
